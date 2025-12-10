@@ -175,16 +175,56 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Ensure download button works correctly
-document.addEventListener('DOMContentLoaded', function() {
+// Ensure all buttons work correctly - multiple initialization points
+function initializeButtons() {
+    // Download button
     const downloadBtn = document.querySelector('.btn-download');
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function(e) {
-            // Don't prevent default - let the browser handle the download
             console.log('Download CV button clicked');
+            // Don't prevent default - let the browser handle the download
         });
     }
-});
+    
+    // Social icons
+    const socialIcons = document.querySelectorAll('.social-icon');
+    socialIcons.forEach((icon, index) => {
+        icon.addEventListener('click', function(e) {
+            console.log(`Social icon ${index + 1} clicked:`, this.href);
+            // Don't prevent default - let the browser handle the links
+        });
+    });
+    
+    // Force proper styling for all interactive elements
+    const allButtons = document.querySelectorAll('.btn-download, .social-icon');
+    allButtons.forEach(button => {
+        button.style.cursor = 'pointer';
+        button.style.pointerEvents = 'auto';
+        button.style.position = 'relative';
+        button.style.zIndex = '30';
+        button.style.display = 'inline-flex';
+        
+        // Remove any potential blocking elements
+        button.addEventListener('mouseenter', function() {
+            this.style.zIndex = '35';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.zIndex = '30';
+        });
+    });
+    
+    console.log('All buttons initialized and ready for interaction');
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeButtons);
+
+// Initialize after AOS animations (backup)
+setTimeout(initializeButtons, 2000);
+
+// Initialize on window load (final backup)
+window.addEventListener('load', initializeButtons);
 
 // Add animation to skill items on hover
 const skillItems = document.querySelectorAll('.skill-item');

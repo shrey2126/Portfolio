@@ -165,6 +165,15 @@ body {
     overflow: hidden;
 }
 
+/* Ensure all interactive elements in hero are clickable */
+.hero .btn-download,
+.hero .social-icon {
+    position: relative;
+    z-index: 25 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -174,6 +183,8 @@ body {
     top: -200px;
     right: -200px;
     animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .hero::after {
@@ -185,6 +196,8 @@ body {
     bottom: -150px;
     left: -150px;
     animation: float 10s ease-in-out infinite reverse;
+    pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes float {
@@ -243,7 +256,7 @@ body {
     margin-bottom: 2.5rem;
     flex-wrap: wrap;
     position: relative;
-    z-index: 10;
+    z-index: 20;
 }
 
 .btn-custom-primary {
@@ -370,7 +383,7 @@ body {
     display: flex;
     gap: 1rem;
     position: relative;
-    z-index: 10;
+    z-index: 20;
 }
 
 .social-icon {
@@ -387,7 +400,8 @@ body {
     border: 1px solid var(--border-color);
     cursor: pointer;
     position: relative;
-    z-index: 10;
+    z-index: 20;
+    pointer-events: auto;
 }
 
 .social-icon:hover {
@@ -473,6 +487,7 @@ body {
     height: 100%;
     z-index: 0;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .shape {
@@ -567,6 +582,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: 2;
+    pointer-events: none;
 }
 
 .icon-float {
@@ -1670,4 +1686,42 @@ img {
 /* Smooth scrolling for all elements */
 * {
     scroll-behavior: smooth;
+}
+
+/* CRITICAL: Ensure all buttons work on Vercel deployment */
+.hero .btn-download,
+.hero .social-icon,
+.btn-download,
+.social-icon {
+    position: relative !important;
+    z-index: 999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    user-select: none !important;
+}
+
+/* Remove any potential interference from pseudo-elements */
+.hero .btn-download::before,
+.hero .social-icon::before,
+.hero .btn-download::after,
+.hero .social-icon::after {
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* Ensure parent containers don't block clicks */
+.cta-buttons,
+.social-links {
+    position: relative !important;
+    z-index: 998 !important;
+    pointer-events: auto !important;
+}
+
+/* Force clickable area */
+.btn-download,
+.social-icon {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    touch-action: manipulation !important;
 }
