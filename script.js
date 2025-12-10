@@ -159,7 +159,7 @@ function showCopyMessage(message) {
     }, 3000);
 }
 
-// Smooth scroll with offset
+// Smooth scroll with offset - only for internal navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -173,6 +173,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
+});
+
+// Ensure download button works correctly
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.querySelector('.btn-download');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(e) {
+            // Don't prevent default - let the browser handle the download
+            console.log('Download CV button clicked');
+        });
+    }
 });
 
 // Add animation to skill items on hover
